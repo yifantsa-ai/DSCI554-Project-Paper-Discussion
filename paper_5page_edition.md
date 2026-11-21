@@ -34,7 +34,7 @@ A bus-stop pin cannot show whether a rider can walk there, board soon, or stay o
 
 ## 3. Data
 
-The unit is the census tract (1,120), the smallest with reliable American Community Survey estimates, labeled with its *Mapping L.A.* [7] neighborhood name because readers recognize "Tujunga," not "Tract 1011.22" (inputs in Table 1).
+Table 1 lists the inputs. The unit is the census tract (1,120), the smallest with reliable American Community Survey estimates, labeled with its *Mapping L.A.* neighborhood name because readers recognize "Tujunga," not "Tract 1011.22."
 
 **Table 1. Core inputs and their roles.**
 
@@ -45,7 +45,7 @@ The unit is the census tract (1,120), the smallest with reliable American Commun
 | LADOT signals [8] | Mapped signal locations for assumed crossing delays |
 | ACS 2020–2024 [14] | Tract demographics for the Sun Exposure scatter plot |
 | NASA WERK lidar [15] | Terrain and surface heights (4 m cells) for shade |
-| Mapping L.A. | LA Times neighborhood names for tract labels |
+| Mapping L.A. [7] | LA Times neighborhood names for tract labels |
 
 ## 4. Design and Implementation
 
@@ -110,7 +110,7 @@ Measured with the team's class files: the Overleaf PDF ends 1.5 lines from the b
 
 | Where | Change | Why |
 |---|---|---|
-| Table 1, §3 | `\cite` the six data sources (OSM, Metro GTFS, LADOT signals, ACS, NASA WERK lidar, Mapping L.A.) | Data sources were uncited in the PDF (regression from the pre-submission paper; ASSIGNMENT requires them) |
+| Table 1 | `\cite` the six data sources (OSM, Metro GTFS, LADOT signals, ACS, NASA WERK lidar, Mapping L.A.) in the Source column | Data sources were uncited in the PDF (regression from the pre-submission paper; ASSIGNMENT requires them) |
 | §2 | Related Work rewritten as three themed paragraphs (≈100 → ≈160 words): Zeng's computation (smart-card trips, waits, transfers) and encoding (isochrone + isotime flow map), and one "we instead…" contrast per theme | Nov 20 FEEDBACK: "what they do and what your project adds", "how they compute and encode travel time" |
 | §1 | "…and difficult tracts, 4–7% of the city by day, are easily lost" | Justifies drawing default routes only for difficult tracts |
 | §4 | Purple edge "43° in hue from the 45–60 class … red, which a unit test keeps over 60° from every class" | Design-process evidence (rank 5 in the review) |
@@ -126,7 +126,7 @@ Measured with the team's class files: the Overleaf PDF ends 1.5 lines from the b
 |---|---|
 | Abstract | Dropped the input list ("combines pedestrian routing, Metro schedules…"); tightened the first challenge sentence |
 | §1 | User groups folded into one sentence; computation sentence shortened; Contributions paragraph no longer repeats the abstract |
-| §3 | Stop count, schedule date and 4 m cells moved into Table 1 rows |
+| §3 | Stop count, schedule date and 4 m cells moved into Table 1 rows; "Table 1 lists the inputs." moved to the start of the paragraph |
 | §4 | Class list given as breaks; origin sentence shortened (limitation stays in §6); "deliberately" and "differing in hue and lightness" dropped; Python pipeline in one clause |
 | §5.2 | Dropped "2 stops within a 30-minute walk and 55 within 60"; buffer sentence shortened; validators sentence moved to §6 |
 | §6 | Limitations in one sentence; future work merged with unfinished work |

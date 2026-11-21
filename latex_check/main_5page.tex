@@ -37,7 +37,7 @@ A bus-stop pin cannot show whether a rider can walk there, board soon, or stay o
 \emph{Walking access and heat.} Real walks to stops differ from the 400\,m buffer~\cite{elgeneidy2014}, signals delay pedestrians~\cite{marisamynathan2018}, and waits drive riders' heat vulnerability~\cite{fraser2017}; Sun / LA shows these factors together.
 
 \section{Data}\label{sec:data}
-The unit is the census tract (1,120), the smallest with reliable American Community Survey estimates, labeled with its \emph{Mapping L.A.}~\cite{mappingla} neighborhood name because readers recognize ``Tujunga,'' not ``Tract 1011.22'' (inputs in Table~\ref{tab:data}).
+Table~\ref{tab:data} lists the inputs. The unit is the census tract (1,120), the smallest with reliable American Community Survey estimates, labeled with its \emph{Mapping L.A.} neighborhood name because readers recognize ``Tujunga,'' not ``Tract 1011.22.''
 
 \begin{table}[!htbp]
 \caption{Core inputs and their roles.}\label{tab:data}
@@ -52,7 +52,7 @@ Source & Data and visualization role \\
 \href{https://maps.lacity.org/lahub/rest/services/LADOT/MapServer/30}{LADOT signals}~\cite{ladotsignals} & Mapped signal locations for assumed crossing delays \\
 \href{https://www.census.gov/programs-surveys/acs/data.html}{ACS 2020--2024}~\cite{census2024} & Tract demographics for the Sun Exposure scatter plot \\
 \href{https://wifire-data.sdsc.edu/dataset/nasa-werk-dem-ca-losangeles-1-b23}{NASA WERK lidar}~\cite{werk} & Terrain and surface heights (4\,m cells) for shade \\
-\href{https://services1.arcgis.com/tp9wqSVX1AitKgjd/arcgis/rest/services/VMT_2022_by_LA_Times_Neighborhood_WFL1/FeatureServer/0}{Mapping L.A.} & LA Times neighborhood names for tract labels \\
+\href{https://services1.arcgis.com/tp9wqSVX1AitKgjd/arcgis/rest/services/VMT_2022_by_LA_Times_Neighborhood_WFL1/FeatureServer/0}{Mapping L.A.}~\cite{mappingla} & LA Times neighborhood names for tract labels \\
 \bottomrule
 \end{tabular}
 \end{table}
