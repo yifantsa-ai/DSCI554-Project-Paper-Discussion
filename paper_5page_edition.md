@@ -10,19 +10,19 @@ Sun / LA: Visualizing Sun Exposure and Underserved Bus-Boarding Reachability in 
 
 ## Abstract
 
-Sun / LA is a geovisualization dashboard that shows transit planners, shade advocates, and Los Angeles riders why a nearby bus stop can still be hard to board or exposed to direct sun, for 1,120 census-tract origins. It addresses two visualization challenges. First, one sun-exposure fill per tract cannot show whether sun falls on the walk or the wait, or separate missing data from shade; we link fixed-bin tract fills to orange/teal/gray route segments and a walk-and-wait breakdown. Second, street-level routes must stay legible over a fine-unit choropleth while walking time is kept apart from boarding difficulty, walk plus scheduled wait above 30 minutes; our reachability map shares one eight-class walking-time scale between fills and routes, adds dark casings, and draws default routes only for underserved tracts. At 08:00, 52 of 1,120 origins (4.6%) are difficult to board.
+Sun / LA is a geovisualization dashboard that shows transit planners, shade advocates, and Los Angeles riders why a nearby bus stop can still be hard to board or exposed to direct sun. It combines pedestrian routing, Metro schedules, assumed signal delays, and lidar-derived shade for 1,120 census-tract origins, and addresses two visualization challenges. First, one sun-exposure fill per tract cannot show whether sun falls on the walk or the wait, or separate missing data from shade; we link fixed-bin tract fills to orange/teal/gray route segments and a walk-and-wait breakdown. Second, street-level routes must stay legible over a fine-unit choropleth while walking time is kept apart from boarding difficulty, walk plus scheduled wait above 30 minutes; our reachability map shares one eight-class walking-time scale between fills and routes, adds dark casings, and draws default routes only for underserved tracts. At 08:00, 52 of 1,120 origins (4.6%) are difficult to board; at 03:00, 375 are.
 
 **Keywords:** Transit accessibility · Choropleth · Route maps · Sun exposure
 
 ## 1. Introduction
 
-A bus-stop pin cannot show whether a rider can walk there, board soon, or stay out of the sun. Planners need neighborhoods where walking plus waiting exceeds 30 minutes, and shade advocates need to know whether sun falls on the walk or at the stop to choose between trees and shelters. Metro reported shelters at 24% of its stops in 2022 [6], and shade in Los Angeles is uneven [13].
+A bus-stop pin cannot show whether a rider can walk there, board soon, or stay out of the sun. Planners need neighborhoods where walking plus waiting exceeds 30 minutes, shade advocates need to know whether sun falls on the walk or at the stop to choose between trees and shelters, and riders compare their own neighborhood. Metro reported shelters at 24% of its stops in 2022 [6], and shade in Los Angeles is uneven [13].
 
-*Reachability visualization challenge.* Walking and boarding times exist in no dataset; we compute them by routing each origin and matching arrivals to timetables. It is hard to show: about 113,000 walks converge on shared streets above 1,120 tract polygons, walking time and walk-plus-wait are different measures, a route colored on the fills' scale vanishes on an area of its own class, and difficult tracts, 4–7% of the city by day, are easily lost.
+*Reachability visualization challenge.* Walking and boarding times exist in no dataset; we compute them by routing each origin and matching arrivals to timetables. It is hard to show: about 113,000 walks converge on shared streets above 1,120 tract polygons, walking time and walk-plus-wait are different measures, and a route colored on the fills' scale vanishes on an area of its own class.
 
-*Primary visualization challenge: sun exposure.* Sun before boarding is also computed, from lidar heights and solar position at each six-second walking step and waiting minute. One fill per tract cannot say whether the walk or the wait is sunny, and missing data must not read as shade.
+*Primary visualization challenge: sun exposure.* Sun before boarding is also computed, from lidar heights and solar position at each six-second walking step and waiting minute; no stock map shows it. One fill per tract cannot say whether the walk or the wait is sunny, and missing data must not read as shade.
 
-*Contributions.* For each challenge we contribute a linked display and join both in one dashboard. Sections 2–6 cover related work, data, design, results, and limitations.
+*Contributions.* For the sun challenge, we contribute a choropleth linked to sun/shade walking segments and a walk-versus-wait breakdown; for the reachability challenge, an underserved-focused travel-time map whose fills and routes share one scale, with casings for legibility; and one dashboard for both. Sections 2–6 cover related work, data, design, results, and limitations.
 
 ## 2. Related Work
 
@@ -53,11 +53,11 @@ Table 1 lists the inputs. The unit is the census tract (1,120), the smallest wit
 
 *Reachability map design.* Riders reach a stop on foot, so we route on walkable OpenStreetMap streets and footways, excluding freeways and links closed to pedestrians. Each tract starts from one interior point (moved to a nearby street in 57 tracts), a reproducible origin. Walks to a bus are usually short [2], so 30 minutes, six times the median walk, is a conservative threshold. Fills encode walking time in eight classes, with breaks at 5, 10, 15, 20, 30, 45, and 60 minutes. The breaks follow the skewed data: 84% of tracts walk under 10 minutes, one break sits at the threshold, and the classes beyond it hold the 29 tracts whose walk alone is too long. ColorBrewer YlGnBu colors [4] darken monotonically, so the order should survive grayscale and color-vision deficiency. A red "!" marks walk plus wait above 30 minutes.
 
-Each route is colored by its own walking time on the same scale; a dark casing, plus a red edge for difficult tracts, keeps it visible on a fill of its own class (Fig. 3b). Riders start from home, so by default only difficult tracts show routes, to their three closest stops; a click shows a tract's stops within 60 minutes or a stop's catchment, and toggles hide each layer. We rejected straight-line buffers, which ignore street barriers, and drawing all routes; an earlier blue-fill, red-route version read as two measures, and a purple edge sat 43° in hue from the 45–60 class, so we chose red, which a unit test keeps over 60° from every class.
+Each route is colored by its own walking time on the same scale; a dark casing, plus a red edge for difficult tracts, keeps it visible on a fill of its own class (Fig. 3b). Riders start from home, so by default only difficult tracts show routes, to their three closest stops; a click shows a tract's stops within 60 minutes or a stop's catchment, and toggles hide each layer. We rejected straight-line buffers, which ignore street barriers, and drawing all routes; an earlier blue-fill, red-route version read as two measures, and a purple edge resembled the 45–60 class, so the edge became red.
 
 *Sun exposure design.* Fills use five fixed bins (0–5 to 20+ minutes). At summer 08:00 about 69% of tracts fall in 0–5 and at noon 6% exceed 20, so five-minute steps separate the common values, the open bin holds the long-wait tail, and fixed breaks keep seasons comparable. The yellow-to-red palette also darkens monotonically. The selected walk is orange (sun) or teal (shade) on a white halo that separates it from the fills; gray marks unknown, and routes appear only for the selection (Fig. 2).
 
-*Layout and implementation.* Both views are map-first with a side panel giving one headline number, and two tabs keep walking and sun minutes off one color scale. In one React application (Fig. 1), a parent component holds the selected neighborhood, tab, and search and passes them to both maps and a D3 scatter plot, whose dots select neighborhoods on the map. deck.gl draws the layers over a MapLibre basemap; Bootstrap styles menus and buttons. Offline Python scripts precompute routes and shade as JSON; routes (55.7 MB in all) are split into one file per tract, about 9 KB each, loaded on click. An AI coding assistant helped write and debug the React/TypeScript code and automated tests.
+*Layout and implementation.* Both views are map-first with a side panel giving one headline number, and two tabs keep walking and sun minutes off one color scale. In one React application (Fig. 1), a parent component holds the selected neighborhood, tab, and search and passes them to both maps and a D3 scatter plot, whose dots select neighborhoods on the map. deck.gl draws the layers over a MapLibre basemap; Bootstrap styles menus and buttons. Offline Python scripts build the pedestrian graph, read timetables, run Dijkstra, compute shade, and export JSON; routes (55.7 MB in all) are split into one file per tract, about 9 KB each, loaded on click. An AI coding assistant helped write and debug the React/TypeScript code and automated tests.
 
 ## 5. Usage Scenarios and Results
 
@@ -71,7 +71,7 @@ At 08:00 with signal delays, 52 of 1,120 origins (4.6%) are difficult, 29 on the
 
 ## 6. Conclusion
 
-Sun / LA separates proximity from access before boarding. Four limits shape what the maps show: one origin per tract can misstate large hillside tracts; the flat 30-second delay on mapped signals makes flags near 30 minutes sensitive; one weekday Metro schedule ignores other operators; and clear skies and unmodeled shelter roofs make sun minutes an upper bound. Outputs passed automated validators and an independent Dijkstra check. A four-task study (4–6 outside participants, fill-only versus linked view), color-vision checks, and field checks of the 1,617-point shelter list remain future work.
+Sun / LA separates proximity from access before boarding. Four limits shape what the maps show: one origin per tract can misstate large hillside tracts; the flat 30-second delay on mapped signals makes flags near 30 minutes sensitive; one weekday Metro schedule ignores other operators; and clear skies and unmodeled shelter roofs make sun minutes an upper bound. Outputs passed automated validators and an independent Dijkstra check. Next, a four-task study (4–6 outside participants, fill-only versus linked view) and a transit planner's review will test the display; matching LADOT signals to OpenStreetMap crossings and checking the 1,617-point shelter list with street imagery will add missing signals and roof shade.
 
 ## Figure Captions
 
@@ -104,7 +104,9 @@ Sun / LA separates proximity from access before boarding. Four limits shape what
 
 ## Changes from the Overleaf PDF
 
-Measured with the team's class files: the Overleaf PDF ends 1.5 lines from the bottom of page 5; this edition ends at the same place (page 5, y = 659 pt of 666) with page 3 about 3 lines short.
+Measured with the team's class files: the Overleaf PDF ends 1.5 lines from the bottom of page 5; this edition ends at about the same place (page 5, y = 658 pt of 666). **There are no spare lines**: a single extra word in the abstract pushes the paper to 6 pages.
+
+**Kept from the Overleaf PDF on purpose** (an earlier draft of this edition had cut them, which would have reopened FEEDBACK items): the abstract's input list (abstract length), the per-challenge Contributions sentence, riders as a user group, "no stock map shows it", and the list of preprocessing steps.
 
 **Added (from the review and the long-form draft)**
 
@@ -112,26 +114,25 @@ Measured with the team's class files: the Overleaf PDF ends 1.5 lines from the b
 |---|---|---|
 | Table 1 | `\cite` the six data sources (OSM, Metro GTFS, LADOT signals, ACS, NASA WERK lidar, Mapping L.A.) in the Source column | Data sources were uncited in the PDF (regression from the pre-submission paper; ASSIGNMENT requires them) |
 | §2 | Related Work rewritten as three themed paragraphs (≈100 → ≈160 words): Zeng's computation (smart-card trips, waits, transfers) and encoding (isochrone + isotime flow map), and one "we instead…" contrast per theme | Nov 20 FEEDBACK: "what they do and what your project adds", "how they compute and encode travel time" |
-| §1 | "…and difficult tracts, 4–7% of the city by day, are easily lost" | Justifies drawing default routes only for difficult tracts |
-| §4 | Purple edge "43° in hue from the 45–60 class … red, which a unit test keeps over 60° from every class" | Design-process evidence (rank 5 in the review) |
 | §4 | "Riders start from home, so by default only difficult tracts show routes" | Origin-first task framing |
 | §4 | GenAI sentence | RUBRIC §3; **team must confirm wording** |
 | §4 | "routes (55.7 MB in all) are split into one file per tract, about 9 KB each, loaded on click" | PDF wording could be read as 55.7 MB per click |
 | §5.1 | Names the nearest stop, Yucca/Cahuenga | Makes the shelter finding actionable |
-| LaTeX | `\raggedbottom`; Table 1 columns `p{.3}`/`p{.65}`; `\usepackage{textcomp}` for ° | Stops stretched paragraphs on page 3; stops "NASA WERK lidar [15]" wrapping |
+| §6 | Future work names the transit planner's review and how missing signals (match LADOT signals to OSM crossings) and shelter roofs (street-imagery check) would be added | FEEDBACK "Limitations and future work" and "Primary challenge evidence" |
+| LaTeX | Fig. 1/2 float moved into §4 (`[!tb]`, next to its first reference), which lets text fill page 3; `\raggedbottom`; Table 1 columns `p{.3}`/`p{.65}`; `\usepackage{textcomp}` for ° | Stops stretched paragraphs on page 3; stops "NASA WERK lidar [15]" wrapping |
 
 **Cut or shortened to pay for it (≈110 words)**
 
 | Where | Change |
 |---|---|
-| Abstract | Dropped the input list ("combines pedestrian routing, Metro schedules…"); tightened the first challenge sentence |
-| §1 | User groups folded into one sentence; computation sentence shortened; Contributions paragraph no longer repeats the abstract |
+| Abstract | Tightened the first challenge sentence; added "at 03:00, 375 are" (kept at ≈154 words, inside the 150–250 range) |
+| §1 | User groups folded into one sentence; computation sentence shortened |
 | §3 | Stop count, schedule date and 4 m cells moved into Table 1 rows; "Table 1 lists the inputs." moved to the start of the paragraph |
-| §4 | Class list given as breaks; origin sentence shortened (limitation stays in §6); "deliberately" and "differing in hue and lightness" dropped; Python pipeline in one clause |
+| §4 | Class list given as breaks; origin sentence shortened (limitation stays in §6); "deliberately" and "differing in hue and lightness" dropped |
 | §5.2 | Dropped "2 stops within a 30-minute walk and 55 within 60"; buffer sentence shortened; validators sentence moved to §6 |
-| §6 | Limitations in one sentence; future work merged with unfinished work |
+| §6 | Limitations in one sentence |
 | Captions | Fig. 1–3 captions shortened (Fig. 3's panel labels are explained in §5.2) |
 
 **Not changed:** title, keywords, all numbers, the three figures and their order, every original citation.
 
-**Still open (see `WHAT_TO_DO_NEXT.md`):** Fig. 1 legibility at print size; optional legend strip in Fig. 3; Andrienko et al. stays a generic clause until someone reads the full text; tool citations (deck.gl, MapLibre, React, D3, pvlib) only if space appears.
+**Still open (see `WHAT_TO_DO_NEXT.md`):** Fig. 1 legibility at print size (FEEDBACK deducted 0.5 for this); optional legend strip in Fig. 3; Andrienko et al. stays a generic clause until someone reads the full text; tool citations (deck.gl, MapLibre, React, D3, pvlib) only if space appears.

@@ -42,7 +42,8 @@ The team's compiled Overleaf PDF will be added to this repo later.
 │   ├── Paper_Revision_Guide.md
 │   ├── revision_feedback.md
 │   ├── patch_vs_feedback_Nov20.md
-│   └── overleaf_pdf_review_Nov21.md
+│   ├── overleaf_pdf_review_Nov21.md
+│   └── 5page_vs_FEEDBACK_Nov21.md
 ├── figure_references/                     ← original screenshots + how to take them
 │   ├── FIGURE_SHOT_LIST.md
 │   └── Fig 1(a).jpeg … Fig 3(c2).jpeg     (8 files)
@@ -123,19 +124,19 @@ v5 uses the Overleaf text as the skeleton and ports in only the most valuable v4
 - **Cites the six data sources** in Table 1 and §3. The Overleaf PDF had dropped them; they appeared only as hidden links.
 - **Related Work** grows to three themed paragraphs, about 160 words. They cover how Zeng et al. compute travel time (smart-card trips, waits and transfers) and how they show it (an isochrone map paired with an isotime flow map), with one "we instead…" contrast per theme.
 - **Added from v4:**
-  - difficult tracts are only 4–7% of the city by day, so they are easily lost;
-  - the purple → red edge change (43° vs. over 60° in hue, kept by a unit test);
   - the origin-first task framing;
-  - the Yucca/Cahuenga stop in the Hollywood example.
+  - the Yucca/Cahuenga stop in the Hollywood example;
+  - a future-work plan for the missing signals (match LADOT signals to OSM crossings), shelter roofs (street-imagery check) and a transit planner's review.
 - **New sentences:**
   - a GenAI statement, which the team needs to confirm;
   - a clearer 55.7 MB sentence: "55.7 MB in all … about 9 KB each, loaded on click".
-- **About 110 words cut** to pay for the additions:
-  - the Contributions paragraph no longer repeats the abstract;
+- **Cut** to pay for the additions:
   - table details moved into Table 1;
-  - shorter captions;
+  - shorter captions and design sentences;
   - the limitations condensed into one sentence.
+- **Kept on purpose**, because each one answers a FEEDBACK item: the abstract's input list (the abstract must stay at 150 words or more; it is about 154), the per-challenge Contributions sentence, riders as a user group, "no stock map shows it", and the preprocessing steps.
 - **Small LaTeX changes:**
+  - the Fig. 1/2 float sits in §4, next to its first reference, so text fills page 3;
   - `\raggedbottom`;
   - wider Table 1 columns;
   - short `@misc` entries for the data sources (their URLs stay as links in Table 1).
@@ -184,7 +185,7 @@ These are tracked in more detail in `WHAT_TO_DO_NEXT.md`.
 
 - [ ] Port v5 into Overleaf, either from `latex_check/main_5page.tex` or by editing `main.tex`. Recompile and confirm it is **5 pages**.
 - [ ] Confirm or extend the GenAI sentence so it matches how AI was actually used.
-- [ ] Put the text in the team's own words **without adding length**. Page 3 has about 3 spare lines and page 5 about half a line.
+- [ ] Put the text in the team's own words **without adding length**. There are no spare lines: one extra word in the abstract makes it 6 pages.
 - [ ] **Fig. 1 is too small to read at print size.** Crop it tighter, or give it more of the row.
 - [ ] Optional: add a legend strip to Fig. 3(a); restore the data-source URLs or cite the tools if space opens up.
 - [ ] Andrienko et al. stays one generic clause until someone reads the full text.
@@ -202,6 +203,7 @@ These are reviews and directions. They are **not** paper text.
 | `revision_feedback.md` | Nov 19 | v1 (tentative draft) | Blocking problems (own words, length, the 1902.01 error) and factual corrections. Led to v2. |
 | `patch_vs_feedback_Nov20.md` | Nov 20 | v2 against the Nov 20 FEEDBACK | Item-by-item check marked done, partly done or missing. Led to v3. |
 | `overleaf_pdf_review_Nov21.md` | Nov 21 | The team's Overleaf `main.pdf` against v4 | Measured 5-page budget (about 1,650 body words), what each addition costs in lines, priority issues (missing data citations, thin Related Work, 55.7 MB wording, no GenAI sentence, Fig. 1 size), and a tested Related Work. Led to v5. |
+| `5page_vs_FEEDBACK_Nov21.md` | Nov 21 | v5 against every item in FEEDBACK.md | Item-by-item status (10 of 13 paper items fixed, 3 mostly fixed; Fig. 1 still at risk), the four deductions an earlier trim had reopened and how they were restored, and the cheapest remaining gains. |
 
 ---
 
