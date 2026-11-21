@@ -14,7 +14,11 @@ The app has two views:
 
 ## TL;DR: which file is the final paper?
 
-**`paper_revision_nov_20_feedback.md`**, in the root of this repo, is the final edition. Everything in `archived paper/` is an older version kept for history. See [Why this is the final edition](#why-this-is-the-final-edition).
+**`paper_5page_edition.md`**, in the root of this repo, is the final edition. It is the text that goes into Overleaf, and it has been compiled and verified to fit the 5-page LNCS limit.
+
+Everything in `archived paper/` is an older version kept for history. That includes `paper_revision_nov_20_feedback.md`, the long-form v4, which is still the full, number-checked source of record. See [Why this is the final edition](#why-this-is-the-final-edition).
+
+The team's compiled Overleaf PDF will be added to this repo later.
 
 ---
 
@@ -23,16 +27,22 @@ The app has two views:
 ```
 .
 ├── README.md                              ← this file
-├── paper_revision_nov_20_feedback.md      ← FINAL paper text (Markdown, to be ported to LNCS LaTeX)
+├── paper_5page_edition.md                 ← FINAL paper text (v5, fits 5 LNCS pages)
 ├── WHAT_TO_DO_NEXT.md                     ← team checklist of remaining work
+├── latex_check/                           ← the build that proves v5 fits in 5 pages
+│   ├── main_5page.tex                     (v5 as LaTeX; uses the team's figures/fig1–3.png)
+│   ├── mybibliography_5page.bib           (team bib + short data-source entries)
+│   └── main_5page_check.pdf               (compiled check, 5 pages; not the submission PDF)
 ├── archived paper/                        ← superseded drafts, oldest → newest
-│   ├── tentative_paper_revision.md
-│   ├── paper_revision_patch.md
-│   └── paper_revision_before_challenges.md
+│   ├── tentative_paper_revision.md        (v1)
+│   ├── paper_revision_patch.md            (v2)
+│   ├── paper_revision_before_challenges.md (v3)
+│   └── paper_revision_nov_20_feedback.md  (v4, long form; source of record)
 ├── feedbacks/                             ← reviews of the drafts (not paper text)
 │   ├── Paper_Revision_Guide.md
 │   ├── revision_feedback.md
-│   └── patch_vs_feedback_Nov20.md
+│   ├── patch_vs_feedback_Nov20.md
+│   └── overleaf_pdf_review_Nov21.md
 ├── figure_references/                     ← original screenshots + how to take them
 │   ├── FIGURE_SHOT_LIST.md
 │   └── Fig 1(a).jpeg … Fig 3(c2).jpeg     (8 files)
@@ -51,7 +61,8 @@ All dates are Pacific time, November 2026. Word counts are for the whole file, i
 | v1 | `archived paper/tentative_paper_revision.md` | Nov 19 | ~6,700 | Archived: the team's first full draft |
 | v2 | `archived paper/paper_revision_patch.md` | Nov 19 | ~3,500 | Archived: trimmed and corrected |
 | v3 | `archived paper/paper_revision_before_challenges.md` | Nov 20 | ~4,100 | Archived: answers the Nov 20 feedback |
-| **v4** | **`paper_revision_nov_20_feedback.md`** | **Nov 20 (evening)** | **~4,500** | **FINAL** |
+| v4 | `archived paper/paper_revision_nov_20_feedback.md` | Nov 20 (evening) | ~4,500 | Archived: long form with the challenge rewrite; source of record |
+| **v5** | **`paper_5page_edition.md`** | **Nov 21** | **~1,550 body** | **FINAL: fits 5 pages** |
 
 ### v1: `tentative_paper_revision.md` (first full draft)
 
@@ -83,7 +94,7 @@ This version answers the professor's Nov 20 FEEDBACK. `feedbacks/patch_vs_feedba
   - The 55.7 MB sentence now says it is the total size of the precomputed routes, not what the browser downloads.
   - Ref 20 had a placeholder; it now has the real LA Times / ArcGIS VMT URL.
 
-### v4: `paper_revision_nov_20_feedback.md` (FINAL)
+### v4: `paper_revision_nov_20_feedback.md` (long form, now archived)
 
 Built from v3. The change is the **challenge rewrite**: v3 still did not clearly say *what is hard* or *how each related work deals with its own version of the problem*.
 
@@ -100,24 +111,70 @@ Built from v3. The change is the **challenge rewrite**: v3 still did not clearly
   - The "arterial roadways" wording was also corrected.
 - **References.** Added Jenny et al. as ref 22. The list now has 9 new entries, 22 in total.
 - Kept the v3 regression fixes (the 55.7 MB sentence and the ref 20 URL).
+- **Problem:** at about 3,900 body words it is roughly 2.4 times what 5 LNCS pages hold. It was kept as the complete, number-checked source, and archived once v5 replaced it.
+- **Correction on Nov 21:** "100 … and 248 within 10 minutes" was changed to "96 … and 247". The data with signal waits gives 96 and 247; 248 is the no-signal-wait figure.
+
+### v5: `paper_5page_edition.md` (FINAL)
+
+The team's own Overleaf paper (`main.pdf`, 5 pages, about 1,640 body words) showed what actually fits. `feedbacks/overleaf_pdf_review_Nov21.md` reviewed that PDF against v4 and measured, by recompiling, how many lines each addition costs.
+
+v5 uses the Overleaf text as the skeleton and ports in only the most valuable v4 content:
+
+- **Cites the six data sources** in Table 1 and §3. The Overleaf PDF had dropped them; they appeared only as hidden links.
+- **Related Work** grows to three themed paragraphs, about 160 words. They cover how Zeng et al. compute travel time (smart-card trips, waits and transfers) and how they show it (an isochrone map paired with an isotime flow map), with one "we instead…" contrast per theme.
+- **Added from v4:**
+  - difficult tracts are only 4–7% of the city by day, so they are easily lost;
+  - the purple → red edge change (43° vs. over 60° in hue, kept by a unit test);
+  - the origin-first task framing;
+  - the Yucca/Cahuenga stop in the Hollywood example.
+- **New sentences:**
+  - a GenAI statement, which the team needs to confirm;
+  - a clearer 55.7 MB sentence: "55.7 MB in all … about 9 KB each, loaded on click".
+- **About 110 words cut** to pay for the additions:
+  - the Contributions paragraph no longer repeats the abstract;
+  - table details moved into Table 1;
+  - shorter captions;
+  - the limitations condensed into one sentence.
+- **Small LaTeX changes:**
+  - `\raggedbottom`;
+  - wider Table 1 columns;
+  - short `@misc` entries for the data sources (their URLs stay as links in Table 1).
+
+The full list of changes is at the end of `paper_5page_edition.md`.
 
 ---
 
 ## Why this is the final edition
 
-`paper_revision_nov_20_feedback.md` is the final edition because it is the only version that meets all of the following:
+`paper_5page_edition.md` is the final edition because it is the only version that meets all of the following:
 
-1. **It answers every item in the Nov 20 FEEDBACK.** v3 already did this, and v4 keeps every one of those changes.
-2. **It covers the challenge framing the professor asked for.** It says what is hard about the reachability view and how related work deals with similar problems. Only v4 does this. Earlier versions described the design without making the challenges clear.
-3. **It contains no known factual errors.** All numbers were checked against the app data and the live site:
-   - the 1902.01 fill of about 1.5 min;
-   - 0.74 MB downloaded when Reachability opens, about 9 KB per tract, and 55.7 MB as the on-disk total;
-   - 14,492 crossings and 48 departures;
-   - the 30-minute (1,800 s) threshold.
-4. **Neither regression is back.** The 55.7 MB sentence and the ref 20 URL are correct in this file.
-5. **It is the newest file, and every older draft is in `archived paper/`.** Any later edit should be made to this file. Do not edit the archived copies.
+1. **It fits the 5-page LNCS limit.**
+   - `latex_check/main_5page.tex` compiles with the team's `llncs.cls` and `splncs04.bst` to exactly 5 pages.
+   - That includes 3 figures, Table 1 and 16 references.
+   - Every version from v1 to v4 is 2 to 4 times too long.
+2. **It answers the Nov 20 FEEDBACK within that space.**
+   - Users and contributions are stated.
+   - Both challenges are named, with what makes them hard.
+   - Related Work says what each work does and what we add.
+   - Units, network, threshold, bins and colors are justified.
+   - The same-color route conflict and its fix are explained.
+   - Alternatives that were rejected are listed.
+   - Dashboard integration is described.
+   - Validation and unfinished work are stated.
+3. **It fixes what the Overleaf PDF got wrong.**
+   - The data sources are cited again.
+   - The ambiguous 55.7 MB sentence is clarified.
+   - A GenAI statement is added.
+4. **It contains no known factual errors.** Every number was checked against the app data:
+   - 52 = 29 + 23 difficult tracts at 08:00;
+   - 375 / 346 at 03:00, and 247 of 346 within a 10-minute walk;
+   - Tujunga 39.0 min with a 29:54 walk;
+   - Hollywood 1.5 min fill vs. a 52.7-min wait;
+   - Palms 3.0 → 47.0 min;
+   - about 69% / 6% for the sun bins.
+5. **Nothing is lost.** v4 stays in `archived paper/` as the long-form source for Q&A and future work. Any later edit goes into `paper_5page_edition.md`, and the team should recompile after each change.
 
-"Final" means final **text content**. A few small items are still open before submission; they are listed next.
+"Final" means final **content within the page budget**. The team still needs to put it in their own words, confirm the GenAI sentence, and fix the figure items listed next.
 
 ---
 
@@ -125,14 +182,13 @@ Built from v3. The change is the **challenge rewrite**: v3 still did not clearly
 
 These are tracked in more detail in `WHAT_TO_DO_NEXT.md`.
 
-- [ ] **Andrienko et al.:** finish the paragraph marked `TEAM TODO` in §2. We could not open the full text.
-- [ ] Change "69%" to "about 69%".
-- [ ] Describe Bootstrap accurately; it is currently called "layout controls".
-- [ ] Make the Fig 1 caption match the figure, including whether the scatter plot is mentioned.
-- [ ] Make the GenAI-use sentence describe how AI was actually used.
-- [ ] **Length:** fit the paper into 5 LNCS pages once it is in LaTeX.
-- [ ] Port to LaTeX: change citations to `\cite{}` and add the 9 new BibTeX entries to `mybibliography.bib`.
-- [ ] Re-measure the ~0.74 MB download on the live site just before submitting.
+- [ ] Port v5 into Overleaf, either from `latex_check/main_5page.tex` or by editing `main.tex`. Recompile and confirm it is **5 pages**.
+- [ ] Confirm or extend the GenAI sentence so it matches how AI was actually used.
+- [ ] Put the text in the team's own words **without adding length**. Page 3 has about 3 spare lines and page 5 about half a line.
+- [ ] **Fig. 1 is too small to read at print size.** Crop it tighter, or give it more of the row.
+- [ ] Optional: add a legend strip to Fig. 3(a); restore the data-source URLs or cite the tools if space opens up.
+- [ ] Andrienko et al. stays one generic clause until someone reads the full text.
+- [ ] Add the team's final Overleaf PDF to this repo.
 
 ---
 
@@ -145,6 +201,7 @@ These are reviews and directions. They are **not** paper text.
 | `Paper_Revision_Guide.md` | Nov 19 | The pre-submission paper | Directions for each section, with concrete examples, including block-level units for future work. Corrected on Nov 19 for the 55.7 MB and 1902.01 errors. |
 | `revision_feedback.md` | Nov 19 | v1 (tentative draft) | Blocking problems (own words, length, the 1902.01 error) and factual corrections. Led to v2. |
 | `patch_vs_feedback_Nov20.md` | Nov 20 | v2 against the Nov 20 FEEDBACK | Item-by-item check marked done, partly done or missing. Led to v3. |
+| `overleaf_pdf_review_Nov21.md` | Nov 21 | The team's Overleaf `main.pdf` against v4 | Measured 5-page budget (about 1,650 body words), what each addition costs in lines, priority issues (missing data citations, thin Related Work, 55.7 MB wording, no GenAI sentence, Fig. 1 size), and a tested Related Work. Led to v5. |
 
 ---
 
