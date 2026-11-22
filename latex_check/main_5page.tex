@@ -17,11 +17,11 @@
 \maketitle
 \begin{abstract}
 Sun / LA is a geovisualization dashboard that shows transit planners, shade advocates, and Los Angeles riders why a nearby bus stop can still be hard to board or exposed to direct sun. It combines pedestrian routing, Metro schedules, assumed signal delays, and lidar-derived shade for 1,120 census-tract origins, and addresses two visualization challenges. First, one sun-exposure fill per tract cannot show whether sun falls on the walk or the wait, or separate missing data from shade; we link fixed-bin tract fills to orange/teal/gray route segments and a walk-and-wait breakdown. Second, street-level routes must stay legible over a fine-unit choropleth while walking time is kept apart from boarding difficulty, walk plus scheduled wait above 30 minutes; our reachability map shares one eight-class walking-time scale between fills and routes, adds dark casings, and draws default routes only for underserved tracts. At 08:00, 52 of 1,120 origins (4.6\%) are difficult to board; at 03:00, 375 are.
-\keywords{Transit accessibility \and Choropleth \and Route maps \and Sun exposure}
+\keywords{Accessibility \and Choropleth \and Route maps \and Sun exposure}
 \end{abstract}
 
 \section{Introduction}
-A bus-stop pin cannot show whether a rider can walk there, board soon, or stay out of the sun. Planners need neighborhoods where walking plus waiting exceeds 30 minutes, shade advocates need to know whether sun falls on the walk or at the stop to choose between trees and shelters, and riders compare their own neighborhood. Metro reported shelters at 24\% of its stops in 2022~\cite{metro2022}, and shade in Los Angeles is uneven~\cite{reginald2024}.
+A bus-stop pin cannot show whether a rider can walk there, board soon, or stay out of the sun. Planners need neighborhoods where walking plus waiting exceeds 30 minutes, shade advocates need to know whether sun falls on the walk or at the stop to choose between trees and shelters, and riders compare their own neighborhood. Metro reported shelters at 24\% of its stops in 2022~\cite{metro2022}, and city shade is uneven~\cite{reginald2024}.
 
 \emph{Reachability visualization challenge.} Walking and boarding times exist in no dataset; we compute them by routing each origin and matching arrivals to timetables. It is hard to show: about 113,000 walks converge on shared streets above 1,120 tract polygons, walking time and walk-plus-wait are different measures, and a route colored on the fills' scale vanishes on an area of its own class.
 
@@ -30,11 +30,11 @@ A bus-stop pin cannot show whether a rider can walk there, board soon, or stay o
 \emph{Contributions.} For the sun challenge, we contribute a choropleth linked to sun/shade walking segments and a walk-versus-wait breakdown; for the reachability challenge, an underserved-focused travel-time map whose fills and routes share one scale, with casings for legibility; and one dashboard for both. Sections~\ref{sec:related}--\ref{sec:conclusion} cover related work, data, design, results, and limitations.
 
 \section{Related Work}\label{sec:related}
-\emph{Travel-time maps with routes.} Zeng et al.~\cite{zeng2014} derive transit journey times, including waits and transfers, from smart-card trips, and avoid geographic flow clutter by pairing an isochrone map with an isotime flow map that straightens routes along a time axis. Andrienko et al.~\cite{andrienko2020} summarize how well public transport connects places. These designs start from one source or aggregate routes; we start from every tract and keep real street paths on the fills' scale.
+\emph{Travel-time maps with routes.} Zeng et al.~\cite{zeng2014} derive transit journey times, including waits and transfers, from smart-card trips, and avoid geographic flow clutter by pairing an isochrone map with an isotime flow map that straightens routes along a time axis. Andrienko et al.~\cite{andrienko2020} summarize how well public transport connects places, and flow-map guidelines~\cite{jenny2018} reduce clutter with curved, non-overlapping flows. These designs start from one source or aggregate routes; we start from every tract and keep real street paths on the fills' scale.
 
 \emph{Sun and shade.} Shadow accrual maps~\cite{miranda2019} make city-scale shadow accumulation over long periods fast enough to explore, and the Urban Toolkit~\cite{moreira2024} composes shadow and other urban layers through a grammar. Both summarize shade over areas and periods; we sample one trip, a moving walk and a fixed wait at the chosen departure, and keep unresolved intervals gray.
 
-\emph{Walking access and heat.} Real walks to stops differ from the 400\,m buffer~\cite{elgeneidy2014}, signals delay pedestrians~\cite{marisamynathan2018}, and waits drive riders' heat vulnerability~\cite{fraser2017}; Sun / LA shows these factors together.
+\emph{Walking access and heat.} Real walks to stops differ from the 400\,m buffer~\cite{elgeneidy2014}, signals delay pedestrians~\cite{marisamynathan2018}, and waits drive riders' heat vulnerability~\cite{fraser2017}; we show them together.
 
 \section{Data}\label{sec:data}
 Table~\ref{tab:data} lists the inputs. The unit is the census tract (1,120), the smallest with reliable American Community Survey estimates, labeled with its \emph{Mapping L.A.} neighborhood name because readers recognize ``Tujunga,'' not ``Tract 1011.22.''
@@ -58,22 +58,22 @@ Source & Data and visualization role \\
 \end{table}
 
 \section{Design and Implementation}\label{sec:design}
-\emph{Computing reachability and sun exposure.} Walking time is the fastest Dijkstra path at 4.8\,km/h, plus 0 or an assumed 30\,s per mapped signal crossing. For each of 48 half-hour departures, time to board is the minimum, over stops within a 30-minute walk, of the walk plus the wait for the first scheduled departure. An origin is \emph{difficult to board} if this exceeds 30 minutes or its shortest walk alone does. Modeled sun exposure sums the sunlit walking and waiting intervals whose shade is known.
+\emph{Computing reachability and sun exposure.} Walking time is the fastest Dijkstra path at 4.8\,km/h, plus 0 or an assumed 30\,s per mapped signal crossing. For each of 48 half-hour departures, time to board is the minimum, over stops within a 30-minute walk, of the walk plus the wait for the first scheduled departure. An origin is \emph{difficult to board} if this exceeds 30 minutes or its shortest walk alone does. Modeled sun exposure sums sunlit walk and wait intervals of known shade.
 
-\emph{Reachability map design.} Riders reach a stop on foot, so we route on walkable OpenStreetMap streets and footways, excluding freeways and links closed to pedestrians. Each tract starts from one interior point (moved to a nearby street in 57 tracts), a reproducible origin. Walks to a bus are usually short~\cite{elgeneidy2014}, so 30 minutes, six times the median walk, is a conservative threshold. Fills encode walking time in eight classes, with breaks at 5, 10, 15, 20, 30, 45, and 60 minutes. The breaks follow the skewed data: 84\% of tracts walk under 10 minutes, one break sits at the threshold, and the classes beyond it hold the 29 tracts whose walk alone is too long. ColorBrewer YlGnBu colors~\cite{harrower2003} darken monotonically, so the order should survive grayscale and color-vision deficiency. A red ``!'' marks walk plus wait above 30 minutes.
+\emph{Reachability map design.} Riders reach a stop on foot, so we route on walkable OpenStreetMap streets and footways, excluding freeways and links closed to pedestrians. Each tract starts from one interior point (moved to a nearby street in 57 tracts), a reproducible origin. Walks to a bus are usually short~\cite{elgeneidy2014}, so 30 minutes, six times the median walk, is a conservative threshold. Fills encode walking time in eight classes, with breaks at 5, 10, 15, 20, 30, 45, and 60 minutes. The breaks follow the data: 84\% of tracts walk under 10 minutes, one break sits at the threshold, and the classes beyond it hold the 29 tracts with too long a walk. ColorBrewer YlGnBu colors~\cite{harrower2003} darken steadily, so the order should survive grayscale and color-vision deficiency. A red ``!'' marks walk plus wait above 30 minutes.
 
-Each route is colored by its own walking time on the same scale; a dark casing, plus a red edge for difficult tracts, keeps it visible on a fill of its own class (Fig.~\ref{fig:reach}b). Riders start from home, so by default only difficult tracts show routes, to their three closest stops; a click shows a tract's stops within 60 minutes or a stop's catchment, and toggles hide each layer. We rejected straight-line buffers, which ignore street barriers, and drawing all routes; an earlier blue-fill, red-route version read as two measures, and a purple edge resembled the 45--60 class, so the edge became red.
+Each route is colored by its own walking time on the same scale; a dark casing, plus a red edge for difficult tracts, keeps it visible on a fill of its own class (Fig.~\ref{fig:reach}b). Riders start from home, and difficult tracts are only 4--7\% of the city by day, so by default only they show routes, to their three closest stops; a click shows a tract's stops within 60 minutes or a stop's catchment, and toggles hide layers. We rejected straight-line buffers, which ignore street barriers, and drawing all routes; an early blue-fill, red-route version read as two measures, and a purple edge resembled the 45--60 class and became red.
 
-\emph{Sun exposure design.} Fills use five fixed bins (0--5 to 20+ minutes). At summer 08:00 about 69\% of tracts fall in 0--5 and at noon 6\% exceed 20, so five-minute steps separate the common values, the open bin holds the long-wait tail, and fixed breaks keep seasons comparable. The yellow-to-red palette also darkens monotonically. The selected walk is orange (sun) or teal (shade) on a white halo that separates it from the fills; gray marks unknown, and routes appear only for the selection (Fig.~\ref{fig:sun}).
+\emph{Sun exposure design.} Fills use five fixed bins (0--5 to 20+ minutes). At summer 08:00 about 69\% of tracts fall in 0--5 and at noon 6\% exceed 20, so five-minute steps separate the common values, the open bin holds the long-wait tail, and fixed breaks keep seasons comparable. The yellow-to-red palette also darkens steadily. The selected walk is orange (sun) or teal (shade) on a white halo that separates it from the fills; gray marks unknown; only the selection shows routes (Fig.~\ref{fig:sun}).
 
 \begin{figure}[!tb]
 \centering
-\begin{minipage}[t]{.43\linewidth}\centering
+\begin{minipage}[t]{.47\linewidth}\centering
 \includegraphics[width=\linewidth]{figures/fig1.png}
-\caption{The dashboard: tabs, shared search, view controls, map, legend, and side panel.}
+\caption{The dashboard (excerpts): tabs, shared search, view controls, map, and side panel.}
 \label{fig:dash}
-\end{minipage}\hspace{.04\linewidth}
-\begin{minipage}[t]{.52\linewidth}\centering
+\end{minipage}\hspace{.03\linewidth}
+\begin{minipage}[t]{.48\linewidth}\centering
 \includegraphics[width=\linewidth]{figures/fig2.png}
 \caption{Hollywood, summer 08:00. Fills: sun minutes, yellow to red; gray = no data. Route: orange = sun, teal = shade, gray = unknown.}
 \label{fig:sun}
@@ -92,12 +92,12 @@ At 08:00 with signal delays, 52 of 1,120 origins (4.6\%) are difficult, 29 on th
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\linewidth]{figures/fig3.png}
-\caption{Reachability: fills and routes share one walking-time scale, light yellow (0--5 min) to dark blue (60+); red ``!'' = walk plus wait over 30 min. (a) 08:00. (b) Tujunga. (c) Palms at 03:00, without and with signal delays.}
+\caption{Reachability: fills and routes share one walking-time scale (legend under b); red ``!'' = walk plus wait over 30 min. (a) 08:00. (b) Tujunga. (c) Palms at 03:00, without and with signal delays.}
 \label{fig:reach}
 \end{figure}
 
 \section{Conclusion}\label{sec:conclusion}
-Sun / LA separates proximity from access before boarding. Four limits shape what the maps show: one origin per tract can misstate large hillside tracts; the flat 30-second delay on mapped signals makes flags near 30 minutes sensitive; one weekday Metro schedule ignores other operators; and clear skies and unmodeled shelter roofs make sun minutes an upper bound. Outputs passed automated validators and an independent Dijkstra check. Next, a four-task study (4--6 outside participants, fill-only versus linked view) and a transit planner's review will test the display; matching LADOT signals to OpenStreetMap crossings and checking the 1,617-point shelter list with street imagery will add missing signals and roof shade.
+Sun / LA separates proximity from access before boarding. Four limits shape what the maps show: one origin per tract can misstate large hillside tracts; the flat 30-second delay on mapped signals makes flags near 30 minutes sensitive; one weekday Metro schedule ignores other operators; and clear skies and unmodeled shelter roofs make sun minutes an upper bound. Outputs passed automated validators and an independent Dijkstra check. Next, a four-task study (4--6 outside participants, fill-only versus linked view) and a transit planner's review will test the display; matching LADOT signals to OpenStreetMap crossings and checking the 1,617-point shelter list with street imagery will add signals and roof shade.
 
 \bibliographystyle{splncs04}
 \bibliography{mybibliography_5page}

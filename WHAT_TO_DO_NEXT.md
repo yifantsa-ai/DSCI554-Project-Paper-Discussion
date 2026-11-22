@@ -18,7 +18,7 @@ Put a name next to each item.
 | 3 | **Confirm the GenAI sentence** in §4 ("An AI coding assistant helped write and debug the React/TypeScript code and automated tests.") and extend it if AI was used for anything else (e.g., writing). | Must be true; RUBRIC §3. | |
 | 4 | **Write the final text in our own words** (ASSIGNMENT.md rule). Any rewrite that adds words must remove the same amount: the paper has **no free lines** (one extra word in the abstract makes it 6 pages). Keep the abstract at **150+ words** (now about 154) and keep the per-challenge Contributions sentence; both were FEEDBACK deductions. | Course rule; page limit. | |
 | 5 | **Andrienko et al.:** the 5-page edition keeps one generic, accurate clause ("summarize how well public transport connects places"). If someone reads the paper, replace it with how they compute and show connectedness, **in the same length**. | Don't describe a method nobody has read. | |
-| 6 | **Optional additions, only if space opens up:** restore the 6 data-source URLs in the bib (~7 lines), cite tools (deck.gl, MapLibre, React, D3, pvlib; ~10 lines), add Jenny et al. on flow-map clutter (~3 lines). | Nice to have; not required by the FEEDBACK. | |
+| 6 | **Optional additions, only if space opens up:** restore the 6 data-source URLs in the bib (~7 lines), cite tools (deck.gl, MapLibre, React, D3, pvlib; ~10 lines), Jenny et al. on flow-map clutter was added in v6; **confirm its clause in §2 against the paper**. | Nice to have; not required by the FEEDBACK. | |
 | 7 | **Recheck numbers** against the live site before submitting: 52 at 08:00 (29 walk + 23 wait), 375 / 346 at 03:00, 247 of 346 within 10 min, Tujunga 39.0 min / 29:54, Hollywood 1.5 vs 52.7-min wait, Palms 3.0 → 47.0, about 69% / 6%. | Must match. | |
 | 8 | **Export `main.pdf` and replace `paper.pdf`** in the project repo; add the final PDF to the Claude-outputs repo too. | Submission. | |
 
@@ -26,8 +26,8 @@ Put a name next to each item.
 
 | # | Task | Owner |
 | --- | --- | --- |
-| 9 | **Fig. 1 is hard to read at print size** (43% of text width; the legend and panel text are illegible at 100% zoom). The previous FEEDBACK deducted for an unreadable Fig. 1. Crop it tighter (header + controls + side panel), or give it more of the row than Fig. 2. Recompile and check the page count. | |
-| 10 | Optional: add the 8-class legend strip to Fig. 3(a); the caption names only the two ends of the scale. | |
+| 9 | **Fig. 1:** v6 (Nov 22) crops it to excerpts (header + controls, map, side panel) at 47% of the text width, so its text prints about 1.7 times larger. The small print is still only about 2 pt. To fix it fully, recapture at 150% browser zoom in a window about 1,300 px wide and rebuild the crop. Upload `latex_check/figures/fig1.png` and `fig3.png` to Overleaf. | |
+| 10 | Done in v6: the 8-class legend strip is under Fig. 3(b), and the caption points to it. | |
 | 11 | Keep the **color key in every caption** if you shorten them further. | |
 
 ## 3. Video (−1 left: title slide)

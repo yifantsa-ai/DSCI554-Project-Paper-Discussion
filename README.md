@@ -30,7 +30,8 @@ The team's compiled Overleaf PDF will be added to this repo later.
 ├── paper_5page_edition.md                 ← FINAL paper text (v5, fits 5 LNCS pages)
 ├── WHAT_TO_DO_NEXT.md                     ← team checklist of remaining work
 ├── latex_check/                           ← the build that proves v5 fits in 5 pages
-│   ├── main_5page.tex                     (v5 as LaTeX; uses the team's figures/fig1–3.png)
+│   ├── main_5page.tex                     (v5 + v6 changes as LaTeX; uses figures/fig1–3.png)
+│   ├── figures/                           (fig1–3.png; fig1 and fig3 rebuilt in v6)
 │   ├── mybibliography_5page.bib           (team bib + short data-source entries)
 │   └── main_5page_check.pdf               (compiled check, 5 pages; not the submission PDF)
 ├── archived paper/                        ← superseded drafts, oldest → newest
@@ -143,6 +144,8 @@ v5 uses the Overleaf text as the skeleton and ports in only the most valuable v4
 
 The full list of changes is at the end of `paper_5page_edition.md`.
 
+**v6 update (Nov 22, same file):** Fig. 1 rebuilt as larger excerpts, the legend strip added to Fig. 3, Jenny et al. added to Related Work, and the "4–7% by day" clause restored, paid for with shorter wording. Still 5 pages. See *Changes in v6* at the end of `paper_5page_edition.md`.
+
 ---
 
 ## Why this is the final edition
@@ -151,7 +154,7 @@ The full list of changes is at the end of `paper_5page_edition.md`.
 
 1. **It fits the 5-page LNCS limit.**
    - `latex_check/main_5page.tex` compiles with the team's `llncs.cls` and `splncs04.bst` to exactly 5 pages.
-   - That includes 3 figures, Table 1 and 16 references.
+   - That includes 3 figures, Table 1 and 17 references (v6 adds Jenny et al.).
    - Every version from v1 to v4 is 2 to 4 times too long.
 2. **It answers the Nov 20 FEEDBACK within that space.**
    - Users and contributions are stated.
@@ -186,8 +189,10 @@ These are tracked in more detail in `WHAT_TO_DO_NEXT.md`.
 - [ ] Port v5 into Overleaf, either from `latex_check/main_5page.tex` or by editing `main.tex`. Recompile and confirm it is **5 pages**.
 - [ ] Confirm or extend the GenAI sentence so it matches how AI was actually used.
 - [ ] Put the text in the team's own words **without adding length**. There are no spare lines: one extra word in the abstract makes it 6 pages.
-- [ ] **Fig. 1 is too small to read at print size.** Crop it tighter, or give it more of the row.
-- [ ] Optional: add a legend strip to Fig. 3(a); restore the data-source URLs or cite the tools if space opens up.
+- [ ] **Fig. 1:** v6 crops it to excerpts and prints its text about 1.7 times larger, but the small print is still only about 2 pt. Recapture at 150% browser zoom to fix it fully.
+- [x] Legend strip added to Fig. 3 (under panel b) in v6.
+- [ ] Confirm the Jenny et al. clause in §2 against the paper (added in v6, wording not checked).
+- [ ] Optional: restore the data-source URLs or cite the tools if space opens up.
 - [ ] Andrienko et al. stays one generic clause until someone reads the full text.
 - [ ] Add the team's final Overleaf PDF to this repo.
 
